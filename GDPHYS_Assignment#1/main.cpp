@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 
+#include "P6/MyVector.h"
+
 #define TINYOBJLOADER_IMPLEMENTATION
 #include "tiny_obj_loader.h"
 
@@ -174,33 +176,48 @@ int main(void)
 
     glm::mat4 projectionMatrix = glm::ortho(-2.0f, 2.0f, -2.0f, 2.0f, -1.0f, 100.0f);
 
+    P6::MyVector position(0, 3, 0);
+    P6::MyVector scale(3, 3, 0);
+
+    std::cout << position.Magnitude() << std::endl;
+    std::cout << position.Direction().x << std::endl;
+    std::cout << position.Direction().y << std::endl;
+    std::cout << position.Direction().z << std::endl;
+
+    std::cout << position.scalarMultiplication(2.f).x << std::endl;
+    std::cout << position.scalarMultiplication(2.f).y << std::endl;
+    std::cout << position.scalarMultiplication(2.f).z << std::endl;
+
+    std::cout << position.dotProduct(scale) << std::endl;
+
+    std::cout << position.crossProduct(scale).x << std::endl;
+    std::cout << position.crossProduct(scale).y << std::endl;
+    std::cout << position.crossProduct(scale).z << std::endl;
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //z = z_mod;
-
-
         //Start with the translation matrix
-        glm::mat4 transformation_matrix = glm::translate(identity_martix, glm::vec3(x_mod, y_mod, z_mod));
+        glm::mat4 transformation_matrix = glm::translate(identity_martix, (glm::vec3)position);
 
         //Multiply the resulting matrix with the scale matrix
-        transformation_matrix = glm::scale(transformation_matrix, glm::vec3(scale, scale, scale));
+        transformation_matrix = glm::scale(transformation_matrix, (glm::vec3)scale);
 
         //Finally, multiply it with the rotation matrix
         transformation_matrix = glm::rotate(transformation_matrix, glm::radians(theta), glm::normalize(glm::vec3(axis_x, axis_y, axis_z)));
 
         //Get location of projection matrix
-        unsigned int projectionLoc = glGetUniformLocation(shaderProg, "projection");
-        //Assign the matrix
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+        //unsigned int projectionLoc = glGetUniformLocation(shaderProg, "projection");
+        ////Assign the matrix
+        //glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
         //Get location of transformation matrix
         unsigned int transformLoc = glGetUniformLocation(shaderProg, "transform");
         //Assign the matrix
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformation_matrix)); \
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transformation_matrix)); 
 
 
             //Tell openGL to use this shader
@@ -224,7 +241,7 @@ int main(void)
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-
+    
     glfwTerminate();
     return 0;
 }
