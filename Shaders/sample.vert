@@ -10,11 +10,12 @@ uniform mat4 transform;
 //Projection Matrix
 uniform mat4 projection;
 
+uniform mat4 view;
 void main()
 {
 	//gl_Position is predefined
 	//this denotes the final position of the vertex / point
 
 	//Multiply the transformation matrix to the vec4  to the vec4 version of aPos
-	gl_Position = transform * vec4(aPos, 1.0);
+	gl_Position = projection * view * transform * vec4(aPos, 1.0);
 }

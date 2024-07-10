@@ -139,9 +139,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera\MyCamera.cpp" />
+    <ClCompile Include="Camera\OrthoCamera.cpp" />
+    <ClCompile Include="P6\ContactResolver.cpp" />
+    <ClCompile Include="P6\Force\GravityForceGenerator.cpp" />
+    <ClCompile Include="P6\Force\ForceRegistry.cpp" />
+    <ClCompile Include="P6\Force\ForceGenerator.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="P6\MyVector.cpp" />
+    <ClCompile Include="P6\PhysicsParticle.cpp" />
+    <ClCompile Include="P6\PhysicsWorld.cpp" />
+    <ClCompile Include="P6\RenderParticle.cpp" />
+    <ClCompile Include="Camera\PerspectiveCamera.cpp" />
+    <ClCompile Include="P6\ParticleContact.cpp" />
+    <ClCompile Include="Randomization\RandomGen.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="Shaders\sample.frag">
@@ -168,7 +182,21 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera\MyCamera.h" />
+    <ClInclude Include="Camera\OrthoCamera.h" />
+    <ClInclude Include="P6\ContactResolver.h" />
+    <ClInclude Include="P6\Force\GravityForceGenerator.h" />
+    <ClInclude Include="P6\Force\ForceRegistry.h" />
+    <ClInclude Include="P6\Force\ForceGenerator.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="P6\MyVector.h" />
+    <ClInclude Include="P6\PhysicsParticle.h" />
+    <ClInclude Include="P6\PhysicsWorld.h" />
+    <ClInclude Include="P6\RenderParticle.h" />
+    <ClInclude Include="Camera\PerspectiveCamera.h" />
+    <ClInclude Include="P6\ParticleContact.h" />
+    <ClInclude Include="Randomization\RandomGen.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
