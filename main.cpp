@@ -115,8 +115,8 @@ int main(void)
     p2.Velocity = physics::MyVector(15, 0, 0);
 
     MyVector dir = p1.Position - p2.Position;
-    dir.direction();
-    pWorld.AddContact(&p1, &p2, 0, dir);
+    pWorld.AddContact(&p1, &p2, 1, dir.direction());
+
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);

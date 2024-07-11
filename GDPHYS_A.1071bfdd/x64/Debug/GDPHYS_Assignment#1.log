@@ -1,0 +1,4 @@
+﻿  main.cpp
+D:\gdphys\GDPHYS\main.cpp(44,45): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+D:\gdphys\GDPHYS\main.cpp(44,31): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  GDPHYS_Assignment#1.vcxproj -> D:\gdphys\GDPHYS\x64\Debug\GDPHYS_Assignment#1.exe

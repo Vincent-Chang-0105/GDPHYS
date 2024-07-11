@@ -3,7 +3,7 @@
 
 namespace physics{
 
-	class PhysicsParticle : public MyVector
+	class PhysicsParticle
 	{
 		protected:
 			bool isDestroyed = false;
