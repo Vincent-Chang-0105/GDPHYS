@@ -18,7 +18,7 @@ namespace physics
 
 	protected:
 		//Current number of Resolve Calls
-		unsigned current_iteration = 0;
+		unsigned current_iterations = 0;
 	};
 }
 

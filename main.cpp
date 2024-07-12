@@ -10,9 +10,15 @@
 #include "P6/PhysicsWorld.h"
 #include "P6/RenderParticle.h"
 #include "P6/ParticleContact.h"
+/*#include "P6/AnchoredSpring.h" */ 
 #include "Camera/OrthoCamera.h"
 #include "Camera/PerspectiveCamera.h"
+#include "RenderLine.h"
 #include "Randomization/RandomGen.h"
+
+#include "P6/Links/Rod.h"
+#include "P6/bungee/bungee.h"
+#include "P6/Chain/Chain.h"
 
 
 using namespace std::chrono_literals;
@@ -25,9 +31,6 @@ enum class CameraMode {
 
 int main(void)
 {
-    //int numObj;
-    //std::cout << "Enter Number of Objects: ";
-    //std::cin >> numObj;
 
     GLFWwindow* window;
     float window_width = 800;
@@ -37,11 +40,11 @@ int main(void)
     auto curr_time = clock::now();
     auto prev_time = curr_time;
     std::chrono::nanoseconds curr_ns(0);
-  
+
     if (!glfwInit())
         return -1;
 
-    window = glfwCreateWindow(window_width, window_height, "Phase 1 : Chang_Magaling", NULL, NULL);
+    window = glfwCreateWindow(window_width, window_height, "Quiz_Vincent Ralph N. Chang", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -73,7 +76,7 @@ int main(void)
     //Spawning Variables
     float fThreshHold = 0.2f;
     float fTicks = 0.0f;
-
+    
     //Default CameraMode
     CameraMode currentCameraMode = CameraMode::Orthographic;
 
@@ -86,40 +89,40 @@ int main(void)
     bool paused = false;
     bool pressed = false;
 
-    // Particles
+    //Instantiating PhysicParticle
     physics::PhysicsParticle p1 = physics::PhysicsParticle();
-    p1.Position = physics::MyVector(150, 0, 0);
-    p1.mass = 5;
+    p1.Position = physics::MyVector(250, 100, 0);
+    p1.mass = 50;
+    p1.radius = 50.f;
     pWorld.AddParticle(&p1);
 
     physics::PhysicsParticle p2 = physics::PhysicsParticle();
-    p2.Position = physics::MyVector(50, 0, 0);
-    p2.mass = 5;
+    p2.Position = physics::MyVector(-200, 100, 0);
+    p2.mass = 50;
+    p2.radius = 50.f;
     pWorld.AddParticle(&p2);
 
-    RenderParticle rp1 = RenderParticle(&p1, &sphere, glm::vec4(0.4f, 0, 0, 1.0f), 50.f);
+    physics::MyVector springPosBungee = physics::MyVector(-200, 150, 0);
+    physics::bungee bungeeSpring = bungee(springPosBungee, 0.7, 200);
+    pWorld.forceRegistry.Add(&p2, &bungeeSpring);
+
+    physics::MyVector springPosChain = physics::MyVector(200, 150, 0);
+    physics::Chain chainSpring = Chain(springPosChain, 0, 300);
+    pWorld.forceRegistry.Add(&p1, &chainSpring);
+
+    RenderParticle rp1 = RenderParticle(&p1, &sphere, glm::vec4(0.4f, 0, 0, 0.f), p1.radius);
     RenderParticles.push_back(&rp1);
 
-    RenderParticle rp2 = RenderParticle(&p2, &sphere, glm::vec4(0, 0, 0.4f, 1.0f), 50.f);
+    RenderParticle rp2 = RenderParticle(&p2, &sphere, glm::vec4(0, 0, 0.4f, 1.f), p2.radius);
     RenderParticles.push_back(&rp2);
 
-    /*physics::ParticleContact contact = physics::ParticleContact();
-    contact.particles[0] = &p1;
-    contact.particles[1] = &p2;
-
-    contact.contactNormal = p1.Position - p2.Position;
-    contact.contactNormal = contact.contactNormal.direction();
-    contact.restitution = 1;*/
-
-    p1.Velocity = physics::MyVector(-60, 0, 0);
-    p2.Velocity = physics::MyVector(15, 0, 0);
-
-    MyVector dir = p1.Position - p2.Position;
-    pWorld.AddContact(&p1, &p2, 1, dir.direction());
+    //Renderlines
+    RenderLine BungeeLine = RenderLine(springPosBungee, p2.Position, glm::vec4(1, 1, 1, 1));
+    RenderLine ChainLine = RenderLine(springPosChain, p1.Position, glm::vec4(1, 1, 1, 1));
 
     while (!glfwWindowShouldClose(window))
     {
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(0x00004000);
 
         curr_time = clock::now();
         auto dur = std::chrono::duration_cast<std::chrono::nanoseconds> (curr_time - prev_time);
@@ -127,7 +130,7 @@ int main(void)
 
         curr_ns += dur;
 
-        
+
         if (curr_ns >= timestep) {
             auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(curr_ns);
             curr_ns -= curr_ns;
@@ -166,16 +169,22 @@ int main(void)
                 view_matrix = pers_camera->GetViewMatrix();
             }
 
-            if(!paused){
+            if (!paused) {
                 pWorld.Update((float)ms.count() / 1000);
-
-                //contact.Resolve((float)ms.count() / 1000);
             }
         }
 
+        //Drawing Objects
         for (std::list<RenderParticle*>::iterator i = RenderParticles.begin(); i != RenderParticles.end(); i++) {
             (*i)->Draw(identity_matrix, projection_matrix, view_matrix);
         }
+
+        //Drawing and Updating Renderlines
+        BungeeLine.Update(springPosBungee, p2.Position, projection_matrix);
+        BungeeLine.Draw();
+
+        ChainLine.Update(springPosChain, p1.Position, projection_matrix);
+        ChainLine.Draw();
 
         glfwSwapBuffers(window);
         glfwPollEvents();

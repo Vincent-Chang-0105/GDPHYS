@@ -11,6 +11,14 @@ float MyVector::Magnitude() const
 	return sqrt(x_sqr + y_sqr + z_sqr);
 }
 
+float physics::MyVector::SquareMagnitude() const
+{
+	float x_sqr = this->x * this->x;
+	float y_sqr = this->y * this->y;
+	float z_sqr = this->z * this->z;
+	return x_sqr + y_sqr + z_sqr;
+}
+
 MyVector MyVector::direction() const
 {
 	float mag = Magnitude();

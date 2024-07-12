@@ -6,6 +6,35 @@ void ParticleContact::Resolve(float time)
 {
     //Call resolve velocity for now
     ResolveVelocity(time);
+
+    ResolveInterpenetration(time);
+}
+
+void ParticleContact::ResolveInterpenetration(float time)
+{
+    if (depth <= 0) return;
+
+    float totalMass = (float)1 / particles[0]->mass;
+    if (particles[1]) totalMass += (float)1 / particles[1]->mass;
+
+    if (totalMass <= 0) return;
+
+    float totalMoveByMass = depth / totalMass;
+
+    MyVector moveByMass = contactNormal * totalMoveByMass;
+
+    MyVector P_a = moveByMass * ((float)1 / particles[0]->mass);
+    //               Vf    =   Vi
+    particles[0]->Position += P_a;
+
+    if (particles[1]) {
+        //Apply impulse in the oppisite direction for B
+        MyVector P_b = moveByMass * ((float)1 / particles[0]->mass);
+        //               Vf    =   Vi
+        particles[0]->Position += P_b;
+    }
+
+    depth = 0;
 }
 
 float ParticleContact::GetSeparatingSpeed()

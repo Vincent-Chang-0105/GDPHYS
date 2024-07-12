@@ -1,4 +1,5 @@
 #include "ForceRegistry.h"
+#include <iostream>
 
 void ForceRegistry::Add(PhysicsParticle* particle, ForceGenerator* generator)
 {

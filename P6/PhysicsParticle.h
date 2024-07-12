@@ -8,6 +8,7 @@ namespace physics{
 		protected:
 			bool isDestroyed = false;
 
+			bool affectedByForce = true;
 			MyVector accumulatedForce = MyVector(0, 0, 0);
 		public:
 			float mass = 0;
@@ -40,6 +41,12 @@ namespace physics{
 			void Destroy();
 			bool IsDestroyed() { return isDestroyed; }
 
+		public:
+			float radius = 1.f;
+			float restitution = 1.f;
+
+			bool GetAffectedByForce();
+			void SetAffectedByForce(bool force) { this->affectedByForce = force; };
 	};
 }
 

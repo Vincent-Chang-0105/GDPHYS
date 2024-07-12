@@ -8,5 +8,6 @@ class ForceGenerator
 		virtual void UpdateForce(physics::PhysicsParticle* p, float time) {
 			p->AddForce(MyVector(0, 0, 0));
 		}
+
 };
 

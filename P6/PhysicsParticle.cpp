@@ -38,6 +38,7 @@ void physics::PhysicsParticle::ResetForce()
 
 void PhysicsParticle::update(float time)
 {
+	if (this->affectedByForce == false) return;
 	this->UpdatePosition(time);
 	this->UpdateVelocity(time);
 	//this->UpdateLifeSpan(time);
@@ -75,4 +76,9 @@ void physics::PhysicsParticle::UpdateLifeSpan(float time)
 void PhysicsParticle::Destroy()
 {
 	this->isDestroyed = true;
+}
+
+bool PhysicsParticle::GetAffectedByForce()
+{
+	return this->affectedByForce;
 }

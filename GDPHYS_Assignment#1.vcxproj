@@ -139,8 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="P6\bungee\bungee.cpp" />
+    <ClCompile Include="P6\AnchoredSpring.cpp" />
     <ClCompile Include="Camera\MyCamera.cpp" />
     <ClCompile Include="Camera\OrthoCamera.cpp" />
+    <ClCompile Include="P6\Chain\Chain.cpp" />
     <ClCompile Include="P6\ContactResolver.cpp" />
     <ClCompile Include="P6\Force\GravityForceGenerator.cpp" />
     <ClCompile Include="P6\Force\ForceRegistry.cpp" />
@@ -148,13 +151,16 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="P6\Links\Rod.cpp" />
     <ClCompile Include="P6\MyVector.cpp" />
     <ClCompile Include="P6\PhysicsParticle.cpp" />
     <ClCompile Include="P6\PhysicsWorld.cpp" />
     <ClCompile Include="P6\RenderParticle.cpp" />
     <ClCompile Include="Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="P6\ParticleContact.cpp" />
+    <ClCompile Include="P6\Links\ParticleLink.cpp" />
     <ClCompile Include="Randomization\RandomGen.cpp" />
+    <ClCompile Include="RenderLine.cpp" />
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -182,20 +188,26 @@
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="P6\bungee\bungee.h" />
+    <ClInclude Include="P6\AnchoredSpring.h" />
     <ClInclude Include="Camera\MyCamera.h" />
     <ClInclude Include="Camera\OrthoCamera.h" />
+    <ClInclude Include="P6\Chain\Chain.h" />
     <ClInclude Include="P6\ContactResolver.h" />
     <ClInclude Include="P6\Force\GravityForceGenerator.h" />
     <ClInclude Include="P6\Force\ForceRegistry.h" />
     <ClInclude Include="P6\Force\ForceGenerator.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="P6\Links\Rod.h" />
     <ClInclude Include="P6\MyVector.h" />
     <ClInclude Include="P6\PhysicsParticle.h" />
     <ClInclude Include="P6\PhysicsWorld.h" />
     <ClInclude Include="P6\RenderParticle.h" />
     <ClInclude Include="Camera\PerspectiveCamera.h" />
     <ClInclude Include="P6\ParticleContact.h" />
+    <ClInclude Include="P6\Links\ParticleLink.h" />
     <ClInclude Include="Randomization\RandomGen.h" />
+    <ClInclude Include="RenderLine.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>

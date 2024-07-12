@@ -16,6 +16,8 @@ namespace physics {
 			//Magnitude
 			float Magnitude() const;
 
+			float SquareMagnitude() const;
+
 			//Direction
 			MyVector direction() const;
 

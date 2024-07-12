@@ -1,5 +1,7 @@
 #pragma once
 #include <list>
+
+#include "Links/ParticleLink.h"
 #include "Force/ForceRegistry.h"
 #include "Force/GravityForceGenerator.h"
 #include "ContactResolver.h"
@@ -12,6 +14,9 @@ namespace physics {
 	class PhysicsWorld
 	{
 	public:
+		//The list of all links
+		std::list<ParticleLink*> Links;
+
 		//The list of ALL our particles
 		std::list<PhysicsParticle*> Particles;
 
@@ -27,17 +32,22 @@ namespace physics {
 		//Updates the particle list
 		void UpdateParticleList();
 
-		GravityForceGenerator Gravity = GravityForceGenerator(MyVector(0, 0, 0));
+		GravityForceGenerator Gravity = GravityForceGenerator(MyVector(0, -300.f, 0));
 
 	public:
 		//Create a Dynamic Array of Contacts
 		//You can use the vector cass for this
 		std::vector<ParticleContact*> Contacts;
 		//Function to easily add contacts
-		void AddContact(PhysicsParticle* p1, PhysicsParticle* p2, float restitution, MyVector contactNormal);
+		void AddContact(PhysicsParticle* p1, PhysicsParticle* p2, float restitution, MyVector contactNormal, float depth);
 
 	protected:
 		ContactResolver contactResolver = ContactResolver(20);
+
+	public:
+		void GetOverlaps();
+
+		void GenerateContacts();
 	};
 }
 

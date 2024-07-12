@@ -6,6 +6,9 @@ namespace physics
 	class ParticleContact
 	{
 	public:
+		float depth;
+
+	public:
 		//The particles in contact
 		PhysicsParticle* particles[2];
 		//Holds the coefficient of restitution
@@ -14,6 +17,9 @@ namespace physics
 		MyVector contactNormal;
 		//Resolve this contact
 		void Resolve(float time);
+
+	protected:
+		void ResolveInterpenetration(float time);
 
 	public:
 		//Get the seperating speed of this collision
