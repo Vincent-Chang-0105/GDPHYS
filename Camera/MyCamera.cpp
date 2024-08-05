@@ -4,7 +4,7 @@ MyCamera::MyCamera()
 {
 	this->cameraPos = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->orientation = glm::vec3(0.0f, 0.0f, -1.0f);
-	this->up = glm::normalize(glm::vec3(0.f, 1.f, 0.f));
+	this->up = glm::normalize(glm::vec3(0.f, 10.f, 0.f));
 
 	SetViewMatrix();
 }

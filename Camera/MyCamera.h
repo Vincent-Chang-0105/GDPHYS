@@ -6,7 +6,7 @@
 
 class MyCamera
 {
-    protected:
+    public:
         glm::vec3 cameraPos;
         glm::vec3 orientation;
         glm::vec3 up;

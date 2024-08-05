@@ -11,10 +11,43 @@ physics::PhysicsParticle::PhysicsParticle()
 	
 }
 
+void PhysicsParticle::AddForceAtPoint(MyVector force, MyVector p)
+{
+	this->AddForce(force);
+
+	this->accumulatedTorque = p.crossProd(force);
+
+}
+
+float PhysicsParticle::MomentOfInertia()
+{
+	//Formula for MoI for spheres
+	return ((float)2 /5) * mass * radius * radius;
+}
+
 void PhysicsParticle::UpdatePosition(float time)
 {
 	float newTime = time * time;
 	this->Position = this->Position + (this->Velocity.ScalarMultiplication(time)) + ((this->Acceleration.ScalarMultiplication(newTime)).ScalarMultiplication(0.5f));
+
+	MyVector angularV = AngularVelocity.ScalarMultiplication(time);
+
+	float angleMag = angularV.Magnitude();
+
+	MyVector MagDir = angularV.direction();
+
+	if (angleMag != 0)
+	{
+		glm::quat rotBy = glm::rotate(
+			glm::mat4(1.f),
+			angleMag,
+			(glm::vec3)MagDir
+		);
+
+		this->Rotation = glm::toMat4(glm::toQuat(this->Rotation) * rotBy);
+	}
+
+
 }
 
 void PhysicsParticle::UpdateVelocity(float time)
@@ -23,6 +56,13 @@ void PhysicsParticle::UpdateVelocity(float time)
 	this->Velocity = this->Velocity + (this->Acceleration.ScalarMultiplication(time));
 
 	this->Velocity = this->Velocity.ScalarMultiplication(powf(damping, time));
+
+	float mI = MomentOfInertia();
+
+	AngularVelocity += accumulatedTorque.ScalarMultiplication(time).ScalarMultiplication(((float)1 / mI));
+
+	AngularVelocity = AngularVelocity.ScalarMultiplication(powf(AngularDamping, time));
+
 }
 
 void PhysicsParticle::AddForce(MyVector force)
@@ -34,11 +74,11 @@ void physics::PhysicsParticle::ResetForce()
 {
 	this->accumulatedForce = MyVector(0, 0, 0);
 	this->Acceleration = MyVector(0, 0, 0);
+	this->accumulatedTorque = MyVector(0, 0, 0);
 }
 
 void PhysicsParticle::update(float time)
 {
-	if (this->affectedByForce == false) return;
 	this->UpdatePosition(time);
 	this->UpdateVelocity(time);
 	//this->UpdateLifeSpan(time);

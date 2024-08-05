@@ -8,6 +8,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "tiny_obj_loader.h"
+#include "stb_image.h"
 
 #include "P6/PhysicsParticle.h"
 #include "Randomization/RandomGen.h"
@@ -22,8 +23,12 @@ class GameObject
 public:
 	GLuint VAO;
 	GLuint VBO;
-
+	GLuint tex;
 	GLuint shaderProgram;
+
+	int img_width;
+	int img_height;
+	int colorChannels;
 
 	glm::vec4 color;
 
@@ -45,13 +50,14 @@ public:
 public:
 	GameObject();
 
-	GameObject(std::string Mesh_Path, std::string Vert_Path, std::string Frag_Path);
+	GameObject(std::string Mesh_Path, std::string Vert_Path, std::string Frag_Path, std::string Tex_Path);
 	~GameObject();
 
 	void Draw(glm::mat4 identity_matrix, glm::mat4 projection_matrix, glm::mat4 view_matrix, float scale);
 
 	void LoadMesh(std::string Mesh_Path);
 	void LoadVertices();
+	void LoadTexture(std::string texPath);
 
 	inline GLuint GetVAO() { return VAO; }
 	inline GLuint GetVBO() { return VBO; }

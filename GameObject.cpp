@@ -4,11 +4,12 @@
 
 using namespace physics;
 
-GameObject::GameObject(std::string Mesh_Path, std::string Vert_Path, std::string Frag_Path)
+GameObject::GameObject(std::string Mesh_Path, std::string Vert_Path, std::string Frag_Path, std::string Tex_Path)
 {
 	Shader* shader = new Shader(Vert_Path, Frag_Path);
 	LoadMesh(Mesh_Path);
 	LoadVertices();
+	LoadTexture(Tex_Path);
 	this->shaderProgram = shader->getShaderProg();
 
 	this->x = 0.0f;
@@ -40,6 +41,10 @@ void GameObject::Draw(glm::mat4 identity_matrix, glm::mat4 projection_matrix, gl
 
 	unsigned int viewLoc = glGetUniformLocation(this->shaderProgram, "view");
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view_matrix));
+
+	GLuint tex0Address = glGetUniformLocation(this->shaderProgram, "tex0");
+	glBindTexture(GL_TEXTURE_2D, this->tex);
+	glUniform1i(tex0Address, 0);
 
 	unsigned int colorLoc = glGetUniformLocation(this->shaderProgram, "color");
 	glUniform4fv(colorLoc, 1, glm::value_ptr(this->color));
@@ -114,5 +119,23 @@ void GameObject::LoadVertices()
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+}
+
+void GameObject::LoadTexture(std::string texPath)
+{
+	stbi_set_flip_vertically_on_load(true);
+
+	const char* path = texPath.c_str();
+	unsigned char* tex_bytes = stbi_load(path, &this->img_width, &this->img_height, &this->colorChannels, 0);
+
+	glGenTextures(1, &this->tex);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, this->tex);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->img_width, this->img_height, 0, GL_RGB, GL_UNSIGNED_BYTE, tex_bytes);
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	stbi_image_free(tex_bytes);
 }
 

@@ -11,6 +11,11 @@ uniform mat4 transform;
 uniform mat4 projection;
 
 uniform mat4 view;
+
+layout(location = 2) in vec2 aTex;
+
+out vec2 texCoord;
+
 void main()
 {
 	//gl_Position is predefined
@@ -18,4 +23,6 @@ void main()
 
 	//Multiply the transformation matrix to the vec4  to the vec4 version of aPos
 	gl_Position = projection * view * transform * vec4(aPos, 1.0);
+
+	texCoord = aTex;
 }

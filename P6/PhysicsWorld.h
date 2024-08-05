@@ -32,7 +32,8 @@ namespace physics {
 		//Updates the particle list
 		void UpdateParticleList();
 
-		GravityForceGenerator Gravity = GravityForceGenerator(MyVector(0, -300.f, 0));
+		// Gravity force generator
+		GravityForceGenerator Gravity;
 
 	public:
 		//Create a Dynamic Array of Contacts
@@ -45,9 +46,15 @@ namespace physics {
 		ContactResolver contactResolver = ContactResolver(20);
 
 	public:
+		// Constructor to initialize gravity with user input
+		PhysicsWorld(const MyVector& gravity)
+			: Gravity(GravityForceGenerator(gravity)), gravity(gravity) {}
+
 		void GetOverlaps();
 
 		void GenerateContacts();
+
+		MyVector gravity;
 	};
 }
 

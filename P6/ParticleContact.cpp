@@ -17,7 +17,7 @@ void ParticleContact::ResolveInterpenetration(float time)
     float totalMass = (float)1 / particles[0]->mass;
     if (particles[1]) totalMass += (float)1 / particles[1]->mass;
 
-    if (totalMass <= 0) return;
+    //if (totalMass <= 0) return;
 
     float totalMoveByMass = depth / totalMass;
 

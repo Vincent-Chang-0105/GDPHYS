@@ -27,6 +27,9 @@ namespace physics {
 
 		void UpdateForce(PhysicsParticle* particle, float time) override;
 
+		void Update(MyVector pos);
+
+		void AddrestLength(float toAdd);
 	};
 }
 

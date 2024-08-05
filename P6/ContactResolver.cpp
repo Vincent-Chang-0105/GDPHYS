@@ -9,7 +9,10 @@ void ContactResolver::ResolveContacts(std::vector<ParticleContact*> contacts, fl
     if (contacts.empty()) {
         return; // or throw an exception, depending on your requirements
     }
+    //return;
     current_iterations = 0;
+
+    //std::cout << "hatdog" << std::endl;
 
     while (current_iterations < max_iterations) {
         unsigned int curr_index = 0;
